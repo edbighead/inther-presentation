@@ -1,0 +1,12 @@
+replicaCount: 1
+
+fullnameOverride: app
+
+image:
+  repository: "edbighead/inther"
+  tag: "1.0"
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
