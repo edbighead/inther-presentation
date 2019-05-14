@@ -11,8 +11,10 @@ pipeline {
             steps {
                 script {
                     sh "env"
+                    echo "Hi"
                 }
             }
         }
+        
     }
 }
