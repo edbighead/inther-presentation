@@ -90,7 +90,7 @@ pipeline {
               steps{
                 dir("chart/app"){
                   script {
-                    helm("upgrade staging --install --namespace staging --set image.tag=${env.CHANGE_ID} --set fullnameOverride=app-staging --wait .")
+                    helm("upgrade staging --install --namespace staging --set image.tag=${env.CHANGE_ID} --set fullnameOverride=app-staging --wait --timeout 600 .")
                   }
                 }
               }
@@ -110,7 +110,7 @@ pipeline {
                   script {
                     def commitText = sh(returnStdout: true, script: 'git show -s --format=format:"%s" HEAD | sed "s/#/number/"').trim()
                     def release = commitText.split("number")[1].split(" ")[0]
-                    helm("upgrade prod --install --namespace staging --set image.tag=${release} --set fullnameOverride=app-prod --wait .")
+                    helm("upgrade prod --install --namespace staging --set image.tag=${release} --set fullnameOverride=app-prod --wait --timeout 600 .")
                   }
                 }
               }
