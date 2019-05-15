@@ -31,15 +31,15 @@ spec:
             httpGet:
               path: /
               port: 8080
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
             periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /
               port: 8080
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
             periodSeconds: 15
           resources:
 {{ toYaml .Values.resources | indent 12 }}

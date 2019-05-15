@@ -108,7 +108,9 @@ pipeline {
               steps{
                 dir("chart/app"){
                   script {
-                    helm("upgrade prod --install --namespace staging --set image.tag=${env.SHORT_SHA} --set fullnameOverride=app-prod --wait .")
+                    def commitText = sh(returnStdout: true, script: 'git show -s --format=format:"%s" HEAD | sed "s/#/number/"').trim()
+                    def release = commitText.split("number")[1].split(" ")[0]
+                    helm("upgrade prod --install --namespace staging --set image.tag=${release} --set fullnameOverride=app-prod --wait .")
                   }
                 }
               }
