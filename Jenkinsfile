@@ -80,7 +80,7 @@ pipeline {
             stage('docker image'){
               steps{
                 script {
-                  def image = "${image_name}:${env.SHORT_SHA}"
+                  def image = "${image_name}:${env.CHANGE_ID}"
                   docker("build -t ${image} .")
                   docker("push ${image} && docker rmi ${image}")
                 }
@@ -90,7 +90,7 @@ pipeline {
               steps{
                 dir("chart/app"){
                   script {
-                    helm("upgrade staging --install --namespace staging --set image.tag=${env.SHORT_SHA} --set fullnameOverride=app-staging --wait .")
+                    helm("upgrade staging --install --namespace staging --set image.tag=${env.CHANGE_ID} --set fullnameOverride=app-staging --wait .")
                   }
                 }
               }
@@ -104,7 +104,7 @@ pipeline {
             value: 'master'
           }
           stages{
-            stage('run unit tests'){
+            stage('deploy to prod'){
               steps{
                 dir("chart/app"){
                   script {
