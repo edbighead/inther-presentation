@@ -14,6 +14,16 @@ def helm(args){
   sh "helm ${args}"
 }
 
+def test(arg){
+  
+  println("Running test"+arg)
+  def s=3*arg
+  sh "sleep ${s}"
+  def response = httpRequest 'http://staging.laur.work'
+  println("Status: "+response.status)
+
+}
+
 pipeline {
     agent any
 
@@ -94,6 +104,31 @@ pipeline {
                   }
                 }
               }
+            }
+            stage('integration tests'){
+              parallel {
+                stage('test-1') {
+                    steps {
+                        script {
+                            test(1)
+                        }
+                    }
+                }
+                stage('test-2') {
+                    steps {
+                        script {
+                            test(2)
+                        }
+                    }
+                }
+                stage('test-3') {
+                    steps {
+                        script {
+                            test(3)
+                        }
+                    }
+                }
+            }
             }
           }
         }
